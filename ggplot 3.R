@@ -222,3 +222,11 @@ ggpairs(mtcars_1)  # 모든 변수는 숫자형
 mtcars_2 <- mtcars_1 %>%
   mutate(cyl=factor(cyl),am=factor(am))
 ggpairs(mtcars_2)
+
+# 각 패널에 작성되는 디폴트 그래프
+# - 대각선 패널: 숫자형(확률밀도 그래프), 범주형(막대그래프)
+# - 대각선 위쪽 패널: 숫자형(상관계수), 범주형(facet 막대 그래프), combo(상자그림)
+# - 대각선 아래쪽 패널: 숫자형(산점도), 범주형(facet 막대 그래프), combo(facet 히스토그램)
+
+# 각 패널에 작성되는 디폴트 그래프의 변경
+# 대각선 위 아래 패널: 옵션 upper, lower
