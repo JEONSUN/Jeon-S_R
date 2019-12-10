@@ -24,3 +24,4 @@ df_2 <- data.frame(NAME=("kim","Park","Lee"),type=("Height","Weight"),measure=c(
 # tidy 데이터로 변환
 df_2%>%spread(key=type,value=measure)
 
+
