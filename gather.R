@@ -1,7 +1,6 @@
 library(tidyverse)
 table1
-
-table4a %>% 
+table4a
   gather(key=year,value=cases,'1999','2000')
 
 
