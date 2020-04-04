@@ -67,3 +67,4 @@ mean(x);max(x) # NA포함이므로 계산불가
 
 # na.rm = TRUE : 연산에서 NA를 제거
 mean(x, na.rm = TRUE); max(x, na.rm = TRUE)
+
