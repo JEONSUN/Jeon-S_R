@@ -1,0 +1,6 @@
+# comment line
+age, gender, income
+24, NA, 2000
+35, F, 3100
+  , F, 3800
+21, F, 2800

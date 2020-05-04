@@ -1,0 +1,5 @@
+age	gender	income
+24M2000
+35F3100
+28F3800
+21F2800

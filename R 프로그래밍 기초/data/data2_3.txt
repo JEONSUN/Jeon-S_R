@@ -1,0 +1,9 @@
+# x1=age, x2=gender, x3=income
+# x2=1(Male) x2=0(Female)
+ x1  x2 x3
+ 24  1  2000
+ 35  0  3100
+ 28  0  3800
+ 21  0  2800
+
+
