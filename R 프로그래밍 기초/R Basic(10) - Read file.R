@@ -96,6 +96,49 @@ read_csv("C:/Users/82104/Desktop/Program/R Tidyverse/R 프로그래밍 기초/da
 read_csv("C:/Users/82104/Desktop/Program/R Tidyverse/R 프로그래밍 기초/data/data5_3.txt",
          col_types = "ici", comment = "#") # 결측값 입력 : NA, 콤마로 구분된 경우 : 빈 칸도 결측값으로 인식
 
+# 자료 파일의 처음 몇 개
+read_csv("C:/Users/82104/Desktop/Program/R Tidyverse/R 프로그래밍 기초/data/data5_3.txt")
 
-         
-         
+# 결측값이 NA가 아닌 다른 기호로 입력 된 경우 : 옵션 NA
+read_csv("C:/Users/82104/Desktop/Program/R Tidyverse/R 프로그래밍 기초/data/data5_4.txt",
+        col_types = "ici", col_names = FALSE, na = ".")
+# 두 개 이상의 다른 기호로 입력 된 경우
+read_csv("C:/Users/82104/Desktop/Program/R Tidyverse/R 프로그래밍 기초/data/data5_5.txt",
+         col_types = "ici", col_names = FALSE, na = c(".","?"))
+
+# 엑셀 파일 불러오기
+library(readxl)
+df3 <- read_excel("C:/Users/82104/Desktop/Program/R Tidyverse/R 프로그래밍 기초/data/data6.xlsx")         
+df3
+read_excel("C:/Users/82104/Desktop/Program/R Tidyverse/R 프로그래밍 기초/data/data6.xlsx",
+           range = "A1:B5")         
+
+# 웹파일 불러오기
+iris.url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
+
+iris.data <- read_csv(iris.url, col_types = "ddddc",
+                      col_names = c("S.length","S.width","P.length",
+                                    "P.width","Species"))
+iris.data
+
+# HTML table 불러오기
+# wikipedia 웹페이지의 HTML 테이블 데이터 불러오기
+library(rvest)
+URL <- "https://en.wikipedia.org/wiki/World_population"
+web <- read_html(URL)
+# 읽어온 웹 페이지에서 함수 html_nodes()로 <table> 노드 추출
+tbl <- html_nodes(web, "table")
+length(tbl)
+head(tbl)
+
+# 원하는 테이블이 몇 번째 노드인지 아는 경우
+tbl_1 <- html_table(tbl[7])
+tbl_1
+
+# xpath를 가지고 불러오기
+tbl_2 <- html_nodes(web, xpath = '//*[@id="mw-content-text"]/div/table[5]')
+tbl_2
+
+top_pop <- tbl_1[[1]]
+names(top_pop) <- c("rank","country","pop","area","density")
+str(top_pop)
