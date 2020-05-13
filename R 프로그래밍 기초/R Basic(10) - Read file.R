@@ -142,3 +142,9 @@ tbl_2
 top_pop <- tbl_1[[1]]
 names(top_pop) <- c("rank","country","pop","area","density")
 str(top_pop)
+
+# 변수 pop,area,density가 모두 문자형으로 입력됨
+# 변수 pop를 숫자형으로 전환하여 평균값 계산
+pop <- top_pop$pop
+pop <- gsub(",","",pop)
+mean(as.numeric(pop))
