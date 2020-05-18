@@ -47,5 +47,65 @@ filter(air_t, is.na(Ozone)|is.na(Solar.R))
 
 air_t <-as_tibble(airquality) 
 filter(air_t, is.na(Ozone&Solar.R))
-# 관찰값의 단순임의추출 : sample_n(), sample_frac()
 
+# 중복된 케이스 제거
+# 1. 특정 변수의 값이 중복된 케이스 제거
+df1 <- data.frame(id = rep(1:3,times = c(2,3,4)),x1 = 1:9)
+duplicated(df1$id) # 중복된 숫자 찾기
+filter(df1, !duplicated(id))
+
+# 2. 모든 변수의 값이 중복된 행 제거
+df2 <- data.frame(id = rep(1:3, each = 2), 
+                  x1 = c(2,2,3,1,4,4))
+df2                  
+filter(df2, !duplicated(df2))
+
+# 관찰값의 단순임의추출
+# sample_n(): 추출하는 행의 개수 size에 지정
+# sample_frac() : 추출하는 행의 비율 size에 지정
+# 비복원 추출이 디폴트
+# 복원 추출을 원하는 경우 replace = TRUE 입력
+
+# 임의로 3개 행 추출
+# 임의로 1%의 행 추출
+iris_t <- as_tibble(iris)
+sample_n(iris_t,size = 3)
+sample_frac(iris_t,size = 0.01)
+
+# base R 함수 sample()에 의한 방법
+sample(1:5, size = 3)
+sample(1:5, size = 3, replace = TRUE)
+
+my_index <- sample(1:nrow(iris), size = 3)
+iris[my_index,]
+
+# 특정 변수의 값이 가장 큰(작은) 관찰값 선택
+# top_n(df,n,wt)
+# df : 데이터 프레임
+# n : 선택할 행의 개수  # n이 양수 : wt값이 큰 관찰값
+# wt : 순서를 결정할 변수 지정 # n이 음수 : wt값이 작은 관찰값
+
+# iris_t에서 Sepal.Width의 값이 가장 큰 두 관찰값 및 가장 작은 두 관찰값
+top_n(iris_t,n = 5,wt = Sepal.Width)
+top_n(iris_t,n = -5,wt = Sepal.Width)
+
+###############################################################################
+
+#관찰값의 정렬 : arrange()
+# 특정 변수를 기준으로 데이터 프레임의 행 재배열
+# 기본적인 사용법 : arrange(df,va1_1,var_2,...)
+# 오름차순 정렬이 디폴트 내림차순 정렬시 desc()에 변수 입력
+
+#변수 mpg의 값이 가장 좋지 않은 자동차부터 배열
+mtcars_t <- as_tibble(mtcars)
+arrange(mtcars_t,mpg)
+
+# 변수 mpg가 가장 좋지 않은 자동차부터 배열하되, mpg 값이 같은 자동차는 변수 wt의 값이 노높은 자동차부터 배열
+arrange(mtcars_t,mpg,desc(wt))
+
+# 5월 1일부터 5월 10일까지의 자료만을 대상으로 Ozone의 값이 가장 낮았던 날부터 재배열
+airs <- as_tibble(airquality)
+airs1 <- filter(airs,Month==5&Day<=10)
+arrange(airs1,Ozone)
+
+#         
