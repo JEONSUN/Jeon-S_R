@@ -108,4 +108,8 @@ airs <- as_tibble(airquality)
 airs1 <- filter(airs,Month==5&Day<=10)
 arrange(airs1,Ozone)
 
-#         
+# airs에서 변수 ozone이 결측값인 케이스를 가장 앞으로 배열
+arrane(airs,!is.na(Ozone))
+
+# airs에서 변수 ozone이 가장 높은 날부터 배열하되 결측값이 있는 케이스를 가장 앞으로 배치
+arrange(airs,!is,na(Ozone),desc(Ozone))
