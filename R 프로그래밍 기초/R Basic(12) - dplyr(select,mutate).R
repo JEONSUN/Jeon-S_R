@@ -61,4 +61,11 @@ rename(mtcars_t,Model=rowname)
 mtcars_t <- as_tibble(mtcars)
 mtcars_t <- mutate(mtcars_t, kml = mpg*0.43,
        gp_kml = if_else(kml >= 10, "good","bad"))
+# 생성된 두 변수의 위치 이동
 mtcars_t %>% select(kml,gp_kml,everything())
+
+# 새로운 변수만 유지하고 나머지 변수 모두 삭제
+# transmute() 사용
+transmute(mtcars_t,
+          kml = mpg*0.43,
+          gp_kml = if_else(kml>=10,"good","bad"))
