@@ -35,6 +35,13 @@ airs_Month %>% summarise(avg_Oz = mean(Ozone,na.rm = TRUE))
 # 2) 월별 날수, 변수 ozone에 결측값이 있는 날수 및 실제 측정이 된 날수
 airs_Month %>% summarise(n_total = n(), n_miss = sum(is.na(Ozone)), n_obs=sum(!is.na(Ozone)))
 # 3) 월별 첫날과 마지막 날 변수 ozone의 값
+x <- c(2,4,6,8,10)
+last(x);nth(x,2);nth(x,-2) 
+# nth(x,2) : 앞에서 두번째 자료
+# nth(x,-2) : 끝에서 두 번째 자료 <-> x[length(x)] + 찾는 위치에 해당 자료가 없으면 na
 airs_Month %>% summarise(min_day = first(Ozone),max_day = last(Ozone))
 # 4) 월별 변수 ozone의 가장 작은 값과 가장 큰 값
-# 5) 월별로 변수 ozoen의 개별 값이 전체 기간 동안의 평균값보다 작은 날수 
+airs_Month %>% summarise(max_Oz = max(Ozone,na.rm = TRUE),min_Oz = min(Ozone,na.rm=TRUE))
+# 5) 월별로 변수 ozone의 개별 값이 전체 기간 동안의 평균값보다 작은 날수 
+m_oz <- with(airquality,mean(Ozone,na.rm=TRUE))
+airs_Month %>% summarise(low_Oz = sum(Ozone < m_oz, na.rm =TRUE))
