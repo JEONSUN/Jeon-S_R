@@ -127,4 +127,3 @@ mpg %>% ggplot(aes(x= displ , y = hwy)) +
   geom_smooth(data = filter(mpg, drv==4), 
               se = FALSE, color = "red")
 
-# 
