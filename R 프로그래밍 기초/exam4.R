@@ -68,3 +68,51 @@ airquality[x1[11:15],]
 air_t <- as_tibble(airquality)
 sample_n(air_t,size = 10 )
 sample_n(air_t,size = 5 )
+
+
+# 5장 연습문제
+library(tidyverse)
+library(lattice)
+
+# 5-1-1
+barley %>% ggplot(aes(x= yield,y=variety, color = year))+
+  geom_point()+
+  facet_wrap(~site)
+  
+# 5-1-2
+barley %>% ggplot(aes(x= yield,y=variety, shape = year, color = site))+
+  geom_point()
+
+# 5-1-3
+barley %>% 
+  group_by(variety) %>% 
+  summarise(mean_yield = mean(yield,na.rm=TRUE)) %>% 
+  arrange(desc(mean_yield))
+
+# 5-2-1
+# fl별 종류별 빈도
+mpg %>% count(fl)
+
+# 5-2-2
+mpg_1 <- mpg %>% filter(fl %in% c("p","r"))
+mpg_1%>%
+  ggplot()+ geom_bar(aes(x=fl,y=stat(prop),group=1))
+
+
+# 5-2-3
+mpg %>% count(trans)
+
+# 5-2-4
+mpg_2 <- mpg_1 %>% mutate(am = substr(trans,1,nchar(trans)-4))
+mpg_2 %>% ggplot() +
+  geom_bar(aes(x=fl,fill=am), position = "fill")
+
+# 5-2-5
+mpg_1 %>% ggplot() +
+  geom_boxplot(aes(x=fl,y=hwy))
+
+# 5-2-6
+mpg_2 %>% ggplot() +
+  geom_boxplot(aes(x=fl,y=hwy))+
+  facet_wrap(~am,ncol = 1)+
+  coord_flip()
