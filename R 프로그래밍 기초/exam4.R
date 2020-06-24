@@ -74,8 +74,10 @@ sample_n(air_t,size = 5 )
 library(tidyverse)
 library(lattice)
 
+barley_t <- barley %>% as_tibble()
+barley_t %>% mutate(year = factor(year))
 # 5-1-1
-barley %>% ggplot(aes(x= yield,y=variety, color = year))+
+barley %>% ggplot(aes(x= yield,y=variety, color = year,shape = year))+
   geom_point()+
   facet_wrap(~site)
   
@@ -88,6 +90,7 @@ barley %>%
   group_by(variety) %>% 
   summarise(mean_yield = mean(yield,na.rm=TRUE)) %>% 
   arrange(desc(mean_yield))
+
 
 # 5-2-1
 # fl별 종류별 빈도
@@ -115,4 +118,63 @@ mpg_1 %>% ggplot() +
 mpg_2 %>% ggplot() +
   geom_boxplot(aes(x=fl,y=hwy))+
   facet_wrap(~am,ncol = 1)+
+  coord_flip()
+
+# 5-3-1
+airquality %>% group_by(Month) %>%
+  summarise()
+
+# 5-3-2
+airquality %>% group_by(Month) %>%
+  summarise(m_oz = mean(Ozone,na.rm=TRUE))%>%
+  ggplot(aes(x=Month,y=m_oz)) + geom_bar(stat = 'identity',fill = "steelblue")
+# 5-3-3
+library(tidyverse)
+airs <- airquality %>% 
+  as_tibble() %>% 
+  mutate(wind_d = if_else(Wind >= mean(Wind,na.rm=TRUE), "High Wind", "Low Wind"),
+                                              temp_d = if_else(Temp >= mean(Temp,na.rm=TRUE), "High Temp", "Low Temp"))
+
+airs %>% ggplot(aes(x=Solar.R,y=Ozone)) +
+  geom_point() + 
+  facet_grid(wind_d~temp_d)
+
+
+# 4-1
+mtcars_t <- mtcars %>% rownames_to_column(var = "model") %>%
+  as_tibble() %>%
+  select(model,mpg,disp,wt) %>% arrange(mpg,desc(disp)) %>% 
+  print(n=5)
+
+# 4-2
+mtcars_t %>% mutate(gp_wt = if_else(wt >= median(wt), "Heavy","Not Heavy"))%>%
+  ggplot(aes(x=disp, y= mpg,col = gp_wt)) +
+  geom_point() +
+  geom_smooth(se = FALSE, method = 'lm')
+
+
+# 4-2-2
+mtcars_t %>% mutate(gp_wt = if_else(wt >= median(wt), "Heavy","Not Heavy"))%>%
+  ggplot(aes(x=disp, y= mpg)) +
+  geom_point() +
+  geom_smooth(se = FALSE, method = 'lm')+
+  facet_wrap(gp_wt~.)
+
+# 5-1
+mpg_1 <- mpg %>% filter(cyl == 4) %>% 
+  mutate(year == factor(year)) %>%
+  select(model,year,displ,cty,hwy) %>%
+  arrange(year,desc(displ),cty) %>% print(n=10)
+
+# 5-1-2
+mpg_1 %>% mutate(gp_displ = if_else(displ >= 2.0 , "Large","Small")) %>%
+  ggplot(aes(x = cty, y= hwy,col = gp_displ))+ 
+  geom_jitter() +
+  facet_wrap(~year,ncol = 1)
+
+# 5-1-3
+mpg_1 %>% mutate(gp_displ = if_else(displ >= 2.0 , "Large","Small")) %>%
+  ggplot(aes(x = hwy, y= gp_displ))+ 
+  geom_boxplot() +
+  facet_wrap(~year)+
   coord_flip()
